@@ -47,9 +47,42 @@ namespace KinectCamera
          * @param KinectSensor.KinectSensors[0]
          * 
          */
-        private void StartKinect(KinectSensor kinect) {
+        private void StartKinect(KinectSensor kinect)
+        {
+            // カメラを有効にする
+            kinect.ColorStream.Enable();
+            // カメラフレームイベント
+            kinect.ColorFrameReady += new EventHandler<ColorImageFrameReadyEventArgs>(kinect_ColorFrameReady);
+
             // Kinectの動作開始
             kinect.Start();
+        }
+
+        /*
+         * カメラのフレーム更新イベント
+         * 
+         */
+        void kinect_ColorFrameReady(object sender, ColorImageFrameReadyEventArgs e)
+        {
+            try
+            {
+                using (ColorImageFrame colorFrame = e.OpenColorImageFrame())
+                {
+                    if (colorFrame != null)
+                    {
+                        // カメラのピクセルデータ取得
+                        byte[] colorPixcel = new byte[colorFrame.PixelDataLength];
+                        colorFrame.CopyPixelDataTo(colorPixcel);
+
+                        // ピクセルデータをビットマップに変換
+                        cameraImg.Source = BitmapSource.Create(colorFrame.Width, colorFrame.Height, 96, 96, PixelFormats.Bgr32, null, colorPixcel, colorFrame.Width * colorFrame.BytesPerPixel);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(ex.Message);
+            }
         }
 
 

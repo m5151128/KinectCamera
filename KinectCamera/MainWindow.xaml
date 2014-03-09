@@ -6,6 +6,6 @@
         Closing="Window_Closing"
 >
     <Grid>
-        
+        <Image Name="cameraImg" Stretch="Uniform" />
     </Grid>
 </Window>
