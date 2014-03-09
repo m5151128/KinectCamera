@@ -36,6 +36,7 @@ namespace KinectCamera
             }
             catch (Exception ex) {
                 MessageBox.Show(ex.Message);
+                Close();
             }
         }
 
