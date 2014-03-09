@@ -50,5 +50,36 @@ namespace KinectCamera
             // Kinectの動作開始
             kinect.Start();
         }
+
+
+        /**
+         * Kinectの動作を停止する 
+         * 
+         * @param KinectSensor.KinectSensors[0]
+         * 
+         */
+        private void StoptKinect(KinectSensor kinect)
+        {
+            if (kinect == null)
+            {
+                if (kinect.IsRunning)
+                {
+                    // Kinectの動作を停止
+                    kinect.Stop();
+                    // ネイティブソースの解放
+                    kinect.Dispose();
+                }
+            }       
+        }
+
+
+        /*
+         * 終了時のイベント
+         * 
+         */
+        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs ce)
+        {
+            StoptKinect(KinectSensor.KinectSensors[0]);
+        }
     }
 }
