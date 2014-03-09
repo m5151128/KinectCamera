@@ -98,10 +98,15 @@ namespace KinectCamera
             {
                 if (kinect.IsRunning)
                 {
+                    // フレーム更新イベントの削除
+                    kinect.ColorFrameReady -= kinect_ColorFrameReady;
+
                     // Kinectの動作を停止
                     kinect.Stop();
                     // ネイティブソースの解放
                     kinect.Dispose();
+
+                    cameraImg.Source = null;
                 }
             }       
         }
